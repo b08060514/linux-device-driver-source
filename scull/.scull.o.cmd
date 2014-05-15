@@ -1,0 +1,1 @@
+cmd_/home/miss/linux-device-driver-source/scull/scull.o := ld -m elf_x86_64   -r -o /home/miss/linux-device-driver-source/scull/scull.o /home/miss/linux-device-driver-source/scull/main.o /home/miss/linux-device-driver-source/scull/pipe.o /home/miss/linux-device-driver-source/scull/access.o 
