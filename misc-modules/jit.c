@@ -15,7 +15,7 @@
  * $Id: jit.c,v 1.16 2004/09/26 07:02:43 gregkh Exp $
  */
 
-#include <linux/config.h>
+//#include <linux/config.h>
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
@@ -27,6 +27,11 @@
 #include <linux/types.h>
 #include <linux/spinlock.h>
 #include <linux/interrupt.h>
+#include <linux/sched.h>
+#include <linux/slab.h>
+#include <linux/proc_fs.h>
+#include <linux/seq_file.h>
+#include <linux/fs.h>
 
 #include <asm/hardirq.h>
 /*
@@ -91,8 +96,9 @@ int jit_fn(char *buf, char **start, off_t offset,
 /*
  * This file, on the other hand, returns the current time forever
  */
-int jit_currentime(char *buf, char **start, off_t offset,
-                   int len, int *eof, void *data)
+//int jit_currentime(char *buf, char **start, off_t offset,
+//                   int len, int *eof, void *data)
+int jit_currentime(struct seq_file *m,void *v)
 {
 	struct timeval tv1;
 	struct timespec tv2;
@@ -106,14 +112,12 @@ int jit_currentime(char *buf, char **start, off_t offset,
 	tv2 = current_kernel_time();
 
 	/* print */
-	len=0;
-	len += sprintf(buf,"0x%08lx 0x%016Lx %10i.%06i\n"
+	seq_printf(m,"0x%08lx 0x%016Lx %10i.%06i\n"
 		       "%40i.%09i\n",
 		       j1, j2,
 		       (int) tv1.tv_sec, (int) tv1.tv_usec,
 		       (int) tv2.tv_sec, (int) tv2.tv_nsec);
-	*start = buf;
-	return len;
+	return 0;
 }
 
 /*
@@ -258,20 +262,31 @@ int jit_tasklet(char *buf, char **start, off_t offset,
 	return buf2 - buf;
 }
 
+static int jit_currentime_open(struct inode *inode,struct file *file)
+{
+	return single_open(file,jit_currentime,NULL);
+}
 
+static const struct file_operations currentime_proc_fops = {
+	.open = jit_currentime_open,
+	.read = seq_read,
+	.llseek = seq_lseek,
+    .release = single_release,
+};
 
 int __init jit_init(void)
 {
-	create_proc_read_entry("currentime", 0, NULL, jit_currentime, NULL);
-	create_proc_read_entry("jitbusy", 0, NULL, jit_fn, (void *)JIT_BUSY);
-	create_proc_read_entry("jitsched",0, NULL, jit_fn, (void *)JIT_SCHED);
-	create_proc_read_entry("jitqueue",0, NULL, jit_fn, (void *)JIT_QUEUE);
-	create_proc_read_entry("jitschedto", 0, NULL, jit_fn, (void *)JIT_SCHEDTO);
+    //create_proc_read_entry("currentime", 0, NULL, jit_currentime, NULL);
+	proc_create("currentime",0,NULL,&currentime_proc_fops);
+//	create_proc_read_entry("jitbusy", 0, NULL, jit_fn, (void *)JIT_BUSY);
+//	create_proc_read_entry("jitsched",0, NULL, jit_fn, (void *)JIT_SCHED);
+//	create_proc_read_entry("jitqueue",0, NULL, jit_fn, (void *)JIT_QUEUE);
+//	create_proc_read_entry("jitschedto", 0, NULL, jit_fn, (void *)JIT_SCHEDTO);
 
-	create_proc_read_entry("jitimer", 0, NULL, jit_timer, NULL);
-	create_proc_read_entry("jitasklet", 0, NULL, jit_tasklet, NULL);
-	create_proc_read_entry("jitasklethi", 0, NULL, jit_tasklet, (void *)1);
-
+//	create_proc_read_entry("jitimer", 0, NULL, jit_timer, NULL);
+//	create_proc_read_entry("jitasklet", 0, NULL, jit_tasklet, NULL);
+//	create_proc_read_entry("jitasklethi", 0, NULL, jit_tasklet, (void *)1);
+//
 	return 0; /* success */
 }
 
