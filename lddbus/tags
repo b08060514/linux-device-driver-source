@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUS_ATTR	lddbus.c	/^static BUS_ATTR(version, S_IRUGO, show_bus_version, NULL);$/;"	p	file:
+DEBFLAGS	Makefile	/^  DEBFLAGS = -O -g # "-O" is needed to expand inlines$/;"	m
+DEBFLAGS	Makefile	/^  DEBFLAGS = -O2$/;"	m
+KERNELDIR	Makefile	/^KERNELDIR ?= \/lib\/modules\/$(shell uname -r)\/build$/;"	m
+PWD	Makefile	/^PWD       := $(shell pwd)$/;"	m
+Version	lddbus.c	/^static char *Version = "$Revision: 1.9 $";$/;"	v	file:
+ldd_bus	lddbus.c	/^struct device ldd_bus = {$/;"	v	typeref:struct:device
+ldd_bus_exit	lddbus.c	/^module_exit(ldd_bus_exit);$/;"	v
+ldd_bus_exit	lddbus.c	/^static void ldd_bus_exit(void)$/;"	f	file:	signature:(void)
+ldd_bus_init	lddbus.c	/^module_init(ldd_bus_init);$/;"	v
+ldd_bus_init	lddbus.c	/^static int __init ldd_bus_init(void)$/;"	f	file:	signature:(void)
+ldd_bus_release	lddbus.c	/^static void ldd_bus_release(struct device *dev)$/;"	f	file:	signature:(struct device *dev)
+ldd_bus_type	lddbus.c	/^struct bus_type ldd_bus_type = {$/;"	v	typeref:struct:bus_type
+ldd_dev_release	lddbus.c	/^static void ldd_dev_release(struct device *dev)$/;"	f	file:	signature:(struct device *dev)
+ldd_match	lddbus.c	/^static int ldd_match(struct device *dev, struct device_driver *driver)$/;"	f	file:	signature:(struct device *dev, struct device_driver *driver)
+ldd_uevent	lddbus.c	/^static int ldd_uevent(struct device *dev, struct kobj_uevent_env *env)$/;"	f	file:	signature:(struct device *dev, struct kobj_uevent_env *env)
+obj-m	Makefile	/^obj-m	:= lddbus.o$/;"	m
+register_ldd_device	lddbus.c	/^EXPORT_SYMBOL(register_ldd_device);$/;"	v
+register_ldd_device	lddbus.c	/^int register_ldd_device(struct ldd_device *ldddev)$/;"	f	signature:(struct ldd_device *ldddev)
+register_ldd_driver	lddbus.c	/^EXPORT_SYMBOL(register_ldd_driver);$/;"	v
+register_ldd_driver	lddbus.c	/^int register_ldd_driver(struct ldd_driver *driver)$/;"	f	signature:(struct ldd_driver *driver)
+show_bus_version	lddbus.c	/^static ssize_t show_bus_version(struct bus_type *bus, char *buf)$/;"	f	file:	signature:(struct bus_type *bus, char *buf)
+show_version	lddbus.c	/^static ssize_t show_version(struct device_driver *driver, char *buf)$/;"	f	file:	signature:(struct device_driver *driver, char *buf)
+unregister_ldd_device	lddbus.c	/^EXPORT_SYMBOL(unregister_ldd_device);$/;"	v
+unregister_ldd_device	lddbus.c	/^void unregister_ldd_device(struct ldd_device *ldddev)$/;"	f	signature:(struct ldd_device *ldddev)
+unregister_ldd_driver	lddbus.c	/^EXPORT_SYMBOL(unregister_ldd_driver);$/;"	v
+unregister_ldd_driver	lddbus.c	/^void unregister_ldd_driver(struct ldd_driver *driver)$/;"	f	signature:(struct ldd_driver *driver)
