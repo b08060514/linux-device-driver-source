@@ -15,7 +15,7 @@
  * $Id: jiq.c,v 1.7 2004/09/26 07:02:43 gregkh Exp $
  */
  
-#include <linux/config.h>
+//#include <linux/config.h>
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
@@ -53,7 +53,7 @@ module_param(delay, long, 0);
 static DECLARE_WAIT_QUEUE_HEAD (jiq_wait);
 
 
-static struct work_struct jiq_work;
+static struct delayed_work jiq_work;
 
 
 
@@ -121,7 +121,7 @@ static void jiq_print_wq(void *ptr)
 	if (data->delay)
 		schedule_delayed_work(&jiq_work, data->delay);
 	else
-		schedule_work(&jiq_work);
+		schedule_work(&jiq_work.work);
 }
 
 
@@ -137,7 +137,7 @@ static int jiq_read_wq(char *buf, char **start, off_t offset,
 	jiq_data.delay = 0;
     
 	prepare_to_wait(&jiq_wait, &wait, TASK_INTERRUPTIBLE);
-	schedule_work(&jiq_work);
+	schedule_work(&jiq_work.work);
 	schedule();
 	finish_wait(&jiq_wait, &wait);
 
