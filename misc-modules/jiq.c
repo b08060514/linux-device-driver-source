@@ -128,8 +128,9 @@ static void jiq_print_wq(struct delayed_work *ptr)
 
 
 
-static int jiq_read_wq(char *buf, char **start, off_t offset,
-                   int len, int *eof, void *data)
+//static int jiq_read_wq(char *buf, char **start, off_t offset,
+//                   int len, int *eof, void *data)
+static int jiq_read_wq(struct file *pfile, char __user *buf, size_t len, loff_t *ppos)
 {
 	DEFINE_WAIT(wait);
 	
@@ -143,7 +144,7 @@ static int jiq_read_wq(char *buf, char **start, off_t offset,
 	schedule();
 	finish_wait(&jiq_wait, &wait);
 
-	*eof = 1;
+	*ppos = 1;
 	return jiq_work.jiq_data.len;
 }
 
@@ -233,10 +234,42 @@ static int jiq_read_run_timer(char *buf, char **start, off_t offset,
 	return jiq_work.jiq_data.len;
 }
 
-/* 
+
 struct proc_dir_entry *create_proc_read_entry(const char *name, umode_t mode,
 			struct proc_dir_entry *parent, 
-*/
+			ssize_t (*read)(struct file *, char __user *, size_t, loff_t *),
+			void *data)
+{
+	struct file_operations proc_read_ops = {
+		.read = read,
+	};
+	return proc_create_data(name, mode, parent, &proc_read_ops, data);
+	/* 
+	struct proc_dir_entry *pde;
+	if ((mode & S_IFMT) == 0)
+	  mode |= S_IFREG;
+
+	if (!S_ISREG(mode)) {
+		WARN_ON(1);
+		return NULL;
+	}
+
+	if ((mode & S_IALLUGO) == 0)
+	  mode |= S_IRUGO;
+	pde = __proc_create(&parent, name, mode, 1);
+	if (!pde)
+	  goto out;
+	pde->proc_fops->read = read;
+	pde->data = data;
+	if (proc_register(parent, pde) < 0)
+	  goto out_free;
+	return pde;
+out_free:
+	kfree(pde);
+out:
+	return NULL;
+	*/
+}
 /*
  * the init/clean material
  */
