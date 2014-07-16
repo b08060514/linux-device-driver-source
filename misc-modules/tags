@@ -9,7 +9,11 @@ DECLARE_WAIT_QUEUE_HEAD	jiq.c	/^static DECLARE_WAIT_QUEUE_HEAD (jiq_wait);$/;"	p
 DECLARE_WAIT_QUEUE_HEAD	sleepy.c	/^static DECLARE_WAIT_QUEUE_HEAD(wq);$/;"	p	file:
 ISA_BASE	silly.c	56;"	d	file:
 ISA_MAX	silly.c	57;"	d	file:
+<<<<<<< HEAD
 JIT_ASYNC_LOOPS	jit.c	146;"	d	file:
+=======
+JIT_ASYNC_LOOPS	jit.c	140;"	d	file:
+>>>>>>> 96579788852789c985fa0e6caeb134ce1a10a28e
 JIT_BUSY	jit.c	/^	JIT_BUSY,$/;"	e	enum:jit_files	file:
 JIT_QUEUE	jit.c	/^	JIT_QUEUE,$/;"	e	enum:jit_files	file:
 JIT_SCHED	jit.c	/^	JIT_SCHED,$/;"	e	enum:jit_files	file:
@@ -134,9 +138,13 @@ jit_data::timer	jit.c	/^	struct timer_list timer;$/;"	m	struct:jit_data	typeref:
 jit_data::tlet	jit.c	/^	struct tasklet_struct tlet;$/;"	m	struct:jit_data	typeref:struct:jit_data::tasklet_struct	file:	access:public
 jit_data::wait	jit.c	/^	wait_queue_head_t wait;$/;"	m	struct:jit_data	file:	access:public
 jit_files	jit.c	/^enum jit_files {$/;"	g	file:
+<<<<<<< HEAD
 jit_fn	jit.c	/^int jit_fn(struct seq_file *m, void *v)$/;"	f	signature:(struct seq_file *m, void *v)
 jit_fn_fops	jit.c	/^static const struct file_operations jit_fn_fops = {$/;"	v	typeref:struct:file_operations	file:
 jit_fn_open	jit.c	/^static int jit_fn_open(struct inode *inode,struct file *file)$/;"	f	file:	signature:(struct inode *inode,struct file *file)
+=======
+jit_fn	jit.c	/^int jit_fn(char *buf, char **start, off_t offset,$/;"	f	signature:(char *buf, char **start, off_t offset, int len, int *eof, void *data)
+>>>>>>> 96579788852789c985fa0e6caeb134ce1a10a28e
 jit_init	jit.c	/^int __init jit_init(void)$/;"	f	signature:(void)
 jit_init	jit.c	/^module_init(jit_init);$/;"	v
 jit_tasklet	jit.c	/^int jit_tasklet(char *buf, char **start, off_t offset,$/;"	f	signature:(char *buf, char **start, off_t offset, int len, int *eof, void *arg)
@@ -153,7 +161,11 @@ ll	kdataalign.c	/^struct ll  {char c;  long long t;} ll;$/;"	v	typeref:struct:ll
 ll::c	kdataalign.c	/^struct ll  {char c;  long long t;} ll;$/;"	m	struct:ll	file:	access:public
 ll::t	kdataalign.c	/^struct ll  {char c;  long long t;} ll;$/;"	m	struct:ll	file:	access:public
 loops	jit.c	/^	int loops;$/;"	m	struct:jit_data	file:	access:public
+<<<<<<< HEAD
 obj-m	Makefile	/^    obj-m := jit.o$/;"	m
+=======
+obj-m	Makefile	/^    obj-m := hello.o hellop.o seq.o jit.o jiq.o sleepy.o complete.o \\$/;"	m
+>>>>>>> 96579788852789c985fa0e6caeb134ce1a10a28e
 p	kdataalign.c	/^struct p   {char c;  void *    t;} p;$/;"	s	file:
 p	kdataalign.c	/^struct p   {char c;  void *    t;} p;$/;"	v	typeref:struct:p
 p::c	kdataalign.c	/^struct p   {char c;  void *    t;} p;$/;"	m	struct:p	file:	access:public
