@@ -39,6 +39,40 @@
  * that show how time delays can be handled in the kernel.
  */
 
+struct proc_dir_entry {
+		unsigned int low_ino;
+		umode_t mode;
+		nlink_t nlink;
+		kuid_t uid;
+		kgid_t gid;
+		loff_t size;
+		const struct inode_operations *proc_iops;
+		const struct file_operations *proc_fops;
+		struct proc_dir_entry *next, *parent, *subdir;
+		void *data;
+		atomic_t count;/*  use count */
+		atomic_t in_use; /*  in_usenumber of callers into module in progress; */
+		/*  negative -> it's going away RSN */
+		struct completion *pde_unload_completion;
+		struct list_head pde_openers;   /* swho did ->open, but not ->release */
+		spinlock_t pde_unload_lock; /*  proc_fops checks and pde_users bumps */
+		u8 namelen;
+		char name[];
+};
+
+struct proc_inode {
+		struct pid *pid;
+		int fd;
+		union proc_op;
+		struct proc_dir_entry *pde;
+		struct ctl_table_header *sysctl;
+		struct ctl_table *sysctl_entry;
+		struct proc_ns;
+		struct inode vfs_inode;
+};
+
+
+
 int delay = HZ; /* the default delay, expressed in jiffies */
 
 module_param(delay, int, 0);
@@ -57,18 +91,26 @@ enum jit_files {
 /*
  * This function prints one line of data, after sleeping one second.
  * It can sleep in different ways, according to the data pointer
- */
+ 
 int jit_fn(char *buf, char **start, off_t offset,
 	      int len, int *eof, void *data)
+*/
+int jit_fn(struct seq_file *m, void *v)
 {
 	unsigned long j0, j1; /* jiffies */
 	wait_queue_head_t wait;
 
+	struct proc_dir_entry *pde = m->private;
+	if(pde)
+	{
+	    printk("No pde->data!");
+		return 0;
+	}
 	init_waitqueue_head (&wait);
 	j0 = jiffies;
 	j1 = j0 + delay;
 
-	switch((long)data) {
+	switch(*(long *)(pde->data)) {
 		case JIT_BUSY:
 			while (time_before(jiffies, j1))
 				cpu_relax();
@@ -88,9 +130,8 @@ int jit_fn(char *buf, char **start, off_t offset,
 	}
 	j1 = jiffies; /* actual value after we delayed */
 
-	len = sprintf(buf, "%9li %9li\n", j0, j1);
-	*start = buf;
-	return len;
+	seq_printf(m, "%9li %9li\n", j0, j1);
+	return 0;
 }
 
 /*
@@ -267,18 +308,54 @@ static int jit_currentime_open(struct inode *inode,struct file *file)
 	return single_open(file,jit_currentime,NULL);
 }
 
+static void *jit_seq_start(struct seq_file *s, loff_t *pos)
+{
+	return 0;
+}
+static void *jit_seq_next(struct seq_file *s, loff_t *pos)
+{
+	return 0;
+}
+static void *jit_seq_stop(struct seq_file *s, loff_t *pos)
+{
+	return 0;
+}
+static struct seq_operations jit_fn_seq_ops = {
+	.start = jit_seq_start,
+	.next = jit_seq_next,
+	.stop = jit_seq_stop,
+	.show = jit_fn
+};
+static int jit_fn_open(struct inode *inode,struct file *file)
+{
+	//return  single_open(file,jit_fn,NULL);
+	int ret = seq_open(file, &jit_fn_seq_ops);
+	if (!ret) {
+		struct seq_file *sf = file->private_data;
+		sf->private = container_of(inode,struct proc_inode,vfs_inode);
+	}
+	return ret;
+}
 static const struct file_operations currentime_proc_fops = {
 	.open = jit_currentime_open,
 	.read = seq_read,
 	.llseek = seq_lseek,
     .release = single_release,
 };
+static const struct file_operations jit_fn_fops = {
+	.open = jit_fn_open,
+	.read = seq_read,
+	.llseek = seq_lseek,
+    .release = seq_release,
+};
 
 int __init jit_init(void)
 {
     //create_proc_read_entry("currentime", 0, NULL, jit_currentime, NULL);
 	proc_create("currentime",0,NULL,&currentime_proc_fops);
+	proc_create_data("jitschedto",0,NULL,&jit_fn_fops,(void *)JIT_SCHED);
 //	create_proc_read_entry("jitbusy", 0, NULL, jit_fn, (void *)JIT_BUSY);
+//	proc_create("jitbusy",0,NULL,&jit_fn_fops);
 //	create_proc_read_entry("jitsched",0, NULL, jit_fn, (void *)JIT_SCHED);
 //	create_proc_read_entry("jitqueue",0, NULL, jit_fn, (void *)JIT_QUEUE);
 //	create_proc_read_entry("jitschedto", 0, NULL, jit_fn, (void *)JIT_SCHEDTO);
@@ -293,14 +370,15 @@ int __init jit_init(void)
 void __exit jit_cleanup(void)
 {
 	remove_proc_entry("currentime", NULL);
-	remove_proc_entry("jitbusy", NULL);
-	remove_proc_entry("jitsched", NULL);
-	remove_proc_entry("jitqueue", NULL);
 	remove_proc_entry("jitschedto", NULL);
+/*	remove_proc_entry("jitbusy", NULL);
+    remove_proc_entry("jitsched", NULL);
+	remove_proc_entry("jitqueue", NULL);
 
 	remove_proc_entry("jitimer", NULL);
 	remove_proc_entry("jitasklet", NULL);
 	remove_proc_entry("jitasklethi", NULL);
+*/
 }
 
 module_init(jit_init);
