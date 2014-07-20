@@ -1,0 +1,87 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DEBFLAGS	Makefile	/^  DEBFLAGS = -O -g -DSCULLD_DEBUG # "-O" is needed to expand inlines$/;"	m
+DEBFLAGS	Makefile	/^  DEBFLAGS = -O2$/;"	m
+KERNELDIR	Makefile	/^KERNELDIR ?= \/lib\/modules\/$(shell uname -r)\/build$/;"	m
+PDEBUG	sculld.h	25;"	d
+PDEBUG	sculld.h	29;"	d
+PDEBUG	sculld.h	32;"	d
+PDEBUG	sculld.h	35;"	d
+PDEBUGG	sculld.h	38;"	d
+PDEBUGG	sculld.h	39;"	d
+PWD	Makefile	/^PWD       := $(shell pwd)$/;"	m
+SCULLD_DEVS	sculld.h	43;"	d
+SCULLD_IOCGORDER	sculld.h	112;"	d
+SCULLD_IOCGQSET	sculld.h	118;"	d
+SCULLD_IOCHORDER	sculld.h	115;"	d
+SCULLD_IOCHQSET	sculld.h	121;"	d
+SCULLD_IOCQORDER	sculld.h	113;"	d
+SCULLD_IOCQQSET	sculld.h	119;"	d
+SCULLD_IOCRESET	sculld.h	100;"	d
+SCULLD_IOCSORDER	sculld.h	110;"	d
+SCULLD_IOCSQSET	sculld.h	116;"	d
+SCULLD_IOCTORDER	sculld.h	111;"	d
+SCULLD_IOCTQSET	sculld.h	117;"	d
+SCULLD_IOCXORDER	sculld.h	114;"	d
+SCULLD_IOCXQSET	sculld.h	120;"	d
+SCULLD_IOC_MAGIC	sculld.h	98;"	d
+SCULLD_IOC_MAXNR	sculld.h	123;"	d
+SCULLD_MAJOR	sculld.h	41;"	d
+SCULLD_ORDER	sculld.h	54;"	d
+SCULLD_QSET	sculld.h	55;"	d
+SCULLD_USE_PROC	sculld.h	90;"	d
+TARGET	Makefile	/^TARGET = sculld$/;"	m
+async_work	main.c	/^struct async_work {$/;"	s	file:
+cdev	sculld.h	/^	struct cdev cdev;$/;"	m	struct:sculld_dev	typeref:struct:sculld_dev::cdev
+data	sculld.h	/^	void **data;$/;"	m	struct:sculld_dev
+devname	sculld.h	/^	char devname[20];$/;"	m	struct:sculld_dev
+iocb	main.c	/^	struct kiocb *iocb;$/;"	m	struct:async_work	typeref:struct:async_work::kiocb	file:
+ldev	sculld.h	/^	struct ldd_device ldev;$/;"	m	struct:sculld_dev	typeref:struct:sculld_dev::ldd_device
+next	sculld.h	/^	struct sculld_dev *next;  \/* next listitem *\/$/;"	m	struct:sculld_dev	typeref:struct:sculld_dev::sculld_dev
+obj-m	Makefile	/^obj-m	:= sculld.o$/;"	m
+order	sculld.h	/^	int order;                \/* the current allocation order *\/$/;"	m	struct:sculld_dev
+qset	sculld.h	/^	int qset;                 \/* the current array size *\/$/;"	m	struct:sculld_dev
+result	main.c	/^	int result;$/;"	m	struct:async_work	file:
+sculld-objs	Makefile	/^sculld-objs := main.o mmap.o$/;"	m
+sculld_aio_read	main.c	/^static ssize_t sculld_aio_read(struct kiocb *iocb, char __user *buf, size_t count,$/;"	f	file:
+sculld_aio_write	main.c	/^static ssize_t sculld_aio_write(struct kiocb *iocb, const char __user *buf,$/;"	f	file:
+sculld_cleanup	main.c	/^module_exit(sculld_cleanup);$/;"	v
+sculld_cleanup	main.c	/^void sculld_cleanup(void)$/;"	f
+sculld_defer_op	main.c	/^static int sculld_defer_op(int write, struct kiocb *iocb, char __user *buf,$/;"	f	file:
+sculld_dev	sculld.h	/^struct sculld_dev {$/;"	s
+sculld_devices	main.c	/^struct sculld_dev *sculld_devices; \/* allocated in sculld_init *\/$/;"	v	typeref:struct:sculld_dev
+sculld_devs	main.c	/^int sculld_devs =    SCULLD_DEVS;	\/* number of bare sculld devices *\/$/;"	v
+sculld_do_deferred_op	main.c	/^static void sculld_do_deferred_op(void *p)$/;"	f	file:
+sculld_driver	main.c	/^static struct ldd_driver sculld_driver = {$/;"	v	typeref:struct:ldd_driver	file:
+sculld_follow	main.c	/^struct sculld_dev *sculld_follow(struct sculld_dev *dev, int n)$/;"	f
+sculld_fops	main.c	/^struct file_operations sculld_fops = {$/;"	v	typeref:struct:file_operations
+sculld_init	main.c	/^int sculld_init(void)$/;"	f
+sculld_init	main.c	/^module_init(sculld_init);$/;"	v
+sculld_ioctl	main.c	/^int sculld_ioctl (struct inode *inode, struct file *filp,$/;"	f
+sculld_llseek	main.c	/^loff_t sculld_llseek (struct file *filp, loff_t off, int whence)$/;"	f
+sculld_major	main.c	/^int sculld_major =   SCULLD_MAJOR;$/;"	v
+sculld_mmap	mmap.c	/^int sculld_mmap(struct file *filp, struct vm_area_struct *vma)$/;"	f
+sculld_open	main.c	/^int sculld_open (struct inode *inode, struct file *filp)$/;"	f
+sculld_order	main.c	/^int sculld_order =   SCULLD_ORDER;$/;"	v
+sculld_proc_offset	main.c	/^void sculld_proc_offset(char *buf, char **start, off_t *offset, int *len)$/;"	f
+sculld_qset	main.c	/^int sculld_qset =    SCULLD_QSET;$/;"	v
+sculld_read	main.c	/^ssize_t sculld_read (struct file *filp, char __user *buf, size_t count,$/;"	f
+sculld_read_procmem	main.c	/^int sculld_read_procmem(char *buf, char **start, off_t offset,$/;"	f
+sculld_register_dev	main.c	/^static void sculld_register_dev(struct sculld_dev *dev, int index)$/;"	f	file:
+sculld_release	main.c	/^int sculld_release (struct inode *inode, struct file *filp)$/;"	f
+sculld_setup_cdev	main.c	/^static void sculld_setup_cdev(struct sculld_dev *dev, int index)$/;"	f	file:
+sculld_show_dev	main.c	/^static ssize_t sculld_show_dev(struct device *ddev, char *buf)$/;"	f	file:
+sculld_trim	main.c	/^int sculld_trim(struct sculld_dev *dev)$/;"	f
+sculld_vm_ops	mmap.c	/^struct vm_operations_struct sculld_vm_ops = {$/;"	v	typeref:struct:vm_operations_struct
+sculld_vma_close	mmap.c	/^void sculld_vma_close(struct vm_area_struct *vma)$/;"	f
+sculld_vma_nopage	mmap.c	/^struct page *sculld_vma_nopage(struct vm_area_struct *vma,$/;"	f
+sculld_vma_open	mmap.c	/^void sculld_vma_open(struct vm_area_struct *vma)$/;"	f
+sculld_write	main.c	/^ssize_t sculld_write (struct file *filp, const char __user *buf, size_t count,$/;"	f
+sem	sculld.h	/^	struct semaphore sem;     \/* Mutual exclusion *\/$/;"	m	struct:sculld_dev	typeref:struct:sculld_dev::semaphore
+size	sculld.h	/^	size_t size;              \/* 32-bit will suffice *\/$/;"	m	struct:sculld_dev
+vmas	sculld.h	/^	int vmas;                 \/* active mappings *\/$/;"	m	struct:sculld_dev
+work	main.c	/^	struct work_struct work;$/;"	m	struct:async_work	typeref:struct:async_work::work_struct	file:
