@@ -1,0 +1,4 @@
+0x36bc17e8	unregister_ldd_driver	/home/miss/linux-device-driver-source/lddbus/lddbus	EXPORT_SYMBOL
+0xa51ef116	register_ldd_driver	/home/miss/linux-device-driver-source/lddbus/lddbus	EXPORT_SYMBOL
+0x0023d3a8	register_ldd_device	/home/miss/linux-device-driver-source/lddbus/lddbus	EXPORT_SYMBOL
+0x5a0f2d47	unregister_ldd_device	/home/miss/linux-device-driver-source/lddbus/lddbus	EXPORT_SYMBOL

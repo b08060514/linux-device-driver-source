@@ -2,6 +2,11 @@
 # Comment/uncomment the following line to enable/disable debugging
 #DEBUG = y
 
+#use KBUILD_EXTRA_SYMBOLS to fix no symbols err, but it seams not working.
+KBUILD_EXTRA_SYMBOLS+=../lddbus/Module.symvers
+export KBUILD_EXTRA_SYMBOLS
+
+
 
 ifeq ($(DEBUG),y)
   DEBFLAGS = -O -g -DSCULLD_DEBUG # "-O" is needed to expand inlines

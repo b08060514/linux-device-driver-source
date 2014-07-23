@@ -34,12 +34,14 @@ static char *Version = "$Revision: 1.9 $";
 //		char *buffer, int buffer_size)
 static int ldd_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
+	/*
 	env->envp[0] = env->buf;
 	if (snprintf(env->buf, env->buflen, "LDDBUS_VERSION=%s",
 			    Version) >= env->buflen)
 		return -ENOMEM;
 	env->envp[1] = NULL;
-	return 0;
+   */
+	return add_uevent_var(env, "LDDBUS_VERSION=%s", Version);
 }
 
 /*
@@ -47,7 +49,9 @@ static int ldd_uevent(struct device *dev, struct kobj_uevent_env *env)
  */
 static int ldd_match(struct device *dev, struct device_driver *driver)
 {
-	return !strncmp(dev->init_name, driver->name, strlen(driver->name));
+	if(driver->name == NULL || dev->kobj.name == NULL)
+	  return 0;
+	return !strncmp(dev->kobj.name, driver->name, strlen(driver->name));
 }
 
 

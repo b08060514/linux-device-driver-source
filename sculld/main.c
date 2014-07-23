@@ -41,7 +41,7 @@ module_param(sculld_devs, int, 0);
 module_param(sculld_qset, int, 0);
 module_param(sculld_order, int, 0);
 MODULE_AUTHOR("Alessandro Rubini");
-MODULE_LICENSE("Dual BSD/GPL");
+MODULE_LICENSE("GPL");
 
 struct sculld_dev *sculld_devices; /* allocated in sculld_init */
 
